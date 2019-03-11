@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Buchungen MatrixZone</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="javascript/lasertag.js"></script>
+    <script src="javascript/bowling.js"></script>
+    <script src="javascript/virtualReality.js"></script>
+
+</head>
+
+<body>
+    <div class="row">
+
+<!--Lasertag-->
+
+        <div id="lasertag">
+            <nav class="nav-extended">
+                <div class="nav-wrapper pink lighten-2">
+                    <a href="#" class="brand-logo right logo-padding" style="color: black">Lasertag</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars material-icons"></i></a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li>
+                            <a href="#modal" class=" modal-trigger" style="color: black">
+                                <i class="fas fa-plus material-icons left"></i>Neue Lasertagbuchung
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        
+            <ul class="sidenav" id="mobile-demo">
+                <li>
+                    <a href="#modal" class="modal-trigger">
+                        <i class="fas fa-plus material-icons left"></i>Neue Lasertagbuchung
+                    </a>
+                </li>
+            </ul>
+        
+            <main>
+                <div class="row">
+                    <div class="col s12 ">
+                        <div id="lasertag-page" class="col s12">
+                            <table class="highlight responsive-table striped">
+                                <thead>
+                                    <tr class="pink lighten-3">
+                                        <th>Id</th>
+                                        <th>Datum</th>
+                                        <th>Zeit</th>
+                                        <th>Anz. Personen</th>
+                                        <th>Telefon</th>
+                                        <th>Name</th>
+                                        <th>Firma</th>
+                                        <th>Optionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="lasertag-list">
+                                    <tr class="lasertag-list-content" id="lasertag_liste_template" data-id="{{lasertag_id}}">
+                                        <td class="lasertag_id">{{lasertag_id}}</td>
+                                        <td class="lasertag_date">{{lasertag_date}}</td>
+                                        <td class="lasertag_time">{{lasertag_time}}</td>
+                                        <td class="lasertag_person">{{lasertag_person}}</td>
+                                        <td class="lasertag_telephone">{{lasertag_telephone}}</td>
+                                        <td class="lasertag_name">{{lasertag_name}}</td>
+                                        <td class="lasertag_company">{{lasertag_company}}</td>
+                                        <td><a class="delete-btn btn-flat waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="Löschen"><i class="fas fa-trash material-icons"></i></a>
+                                            <a class="edit-btn btn-flat waves-effect waves-teal tooltipped" data-position="bottom" data-tooltip="Bearbeiten"><i class="fas fa-edit material-icons"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="modal" class="modal">
+                        <div class="modal-content">
+                            <h4 class='modal-title'>Buchung bearbeiten</h4>
+                            <form id="lasertagForm" current-record="none">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_date" input type="text" class="validate datepicker" required>
+                                        <label for="lasertag_date">Datum *</label> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_time" type="text" class="validate timepicker" required>
+                                        <label for="lasertag_time">Zeit *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_person" type="number" class="validate" required step="1.0">
+                                        <label for="lasertag_person">Anz. Personen *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_telephone" type="text" class="validate" required>
+                                        <label for="lasertag_telephone">Telefonnummer *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_name" type="text" class="validate" required>
+                                        <label for="lasertag_name">Name *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="lasertag_company" type="text" class="validate">
+                                        <label for="lasertag_company">Firma</label>
+                                    </div>
+                                </div>
+                                <label>* Pflichtfeld</label>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input class="btn" id="reset" type="reset" style="background-color: #f06292">
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input class="btn right" id="submit" type="submit" style="background-color: #f06292">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+<!--Bowling-->
+
+        <div id="bowling">
+            <nav class="nav-extended">
+                <div class="nav-wrapper pink lighten-2">
+                    <a href="#" class="brand-logo right logo-padding" style="color: black">Bowling</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars material-icons"></i></a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li>
+                            <a href="#modal" class=" modal-trigger" style="color: black">
+                                <i class="fas fa-plus material-icons left"></i>Neue Bowlingbuchung
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul class="sidenav" id="mobile-demo">
+                <li>
+                    <a href="#modal" class="modal-trigger">
+                        <i class="fas fa-plus material-icons left"></i>Neuer Eintrag
+                    </a>
+                </li>
+            </ul>
+
+            <main>
+                <div class="row">
+                    <div class="col s12 ">
+                        <div id="bowling-page" class="col s12">
+                            <table class="highlight responsive-table striped">
+                                <thead>
+                                    <tr class="pink lighten-3">
+                                        <th>Id</th>
+                                        <th>Datum</th>
+                                        <th>Zeit</th>
+                                        <th>Anz. Personen</th>
+                                        <th>Telefon</th>
+                                        <th>Name</th>
+                                        <th>Firma</th>
+                                        <th>Optionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bowling-list">
+                                    <tr class="bowling-list-content" id="bowling_liste_template" data-id="{{bowling_id}}">
+                                        <td class="bowling_id">{{bowling_id}}</td>
+                                        <td class="bowling_date">{{bowling_date}}</td>
+                                        <td class="bowling_time">{{bowling_time}}</td>
+                                        <td class="bowling_person">{{bowling_person}}</td>
+                                        <td class="bowling_telephone">{{bowling_telephone}}</td>
+                                        <td class="bowling_name">{{bowling_name}}</td>
+                                        <td class="bowling_company">{{bowling_company}}</td>
+                                        <td><a class="delete-btn btn-flat waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="Löschen"><i class="fas fa-trash material-icons"></i></a>
+                                            <a class="edit-btn btn-flat waves-effect waves-teal tooltipped" data-position="bottom" data-tooltip="Bearbeiten"><i class="fas fa-edit material-icons"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="modal" class="modal">
+                        <div class="modal-content">
+                            <h4 class='modal-title'>Buchung bearbeiten</h4>
+                            <form id="bowlingForm" current-record="none">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_date" input type="text" class="validate datepicker" required>
+                                        <label for="bowling_date">Datum *</label> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_time" type="text" class="validate timepicker" required>
+                                        <label for="bowling_time">Zeit *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_person" type="number" class="validate" required step="1.0">
+                                        <label for="bowling_person">Anz. Personen *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_telephone" type="text" class="validate" required>
+                                        <label for="bowling_telephone">Telefonnummer *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_name" type="text" class="validate" required>
+                                        <label for="bowling_name">Name *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="bowling_company" type="text" class="validate">
+                                        <label for="bowling_company">Firma</label>
+                                    </div>
+                                </div>
+                                <label>* Pflichtfeld</label>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input class="btn" id="reset" type="reset" style="background-color: #f06292">
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input class="btn right" id="submit" type="submit" style="background-color: #f06292">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+<!--VR-->
+
+        <div id="virtualReality">
+            <nav class="nav-extended">
+                <div class="nav-wrapper pink lighten-2">
+                    <a href="#" class="brand-logo right logo-padding" style="color: black">virtualReality</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fas fa-bars material-icons"></i></a>
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        <li>
+                            <a href="#modal" class=" modal-trigger" style="color: black">
+                                <i class="fas fa-plus material-icons left"></i>Neue virtualRealitybuchung
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        
+            <ul class="sidenav" id="mobile-demo">
+                <li>
+                    <a href="#modal" class="modal-trigger">
+                        <i class="fas fa-plus material-icons left"></i>Neue virtualRealitybuchung
+                    </a>
+                </li>
+            </ul>
+        
+            <main>
+                <div class="row">
+                    <div class="col s12 ">
+                        <div id="virtualReality-page" class="col s12">
+                            <table class="highlight responsive-table striped">
+                                <thead>
+                                    <tr class="pink lighten-3">
+                                        <th>Id</th>
+                                        <th>Datum</th>
+                                        <th>Zeit</th>
+                                        <th>Anz. Personen</th>
+                                        <th>Telefon</th>
+                                        <th>Name</th>
+                                        <th>Firma</th>
+                                        <th>Optionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="virtualReality-list">
+                                    <tr class="virtualReality-list-content" id="virtualReality_liste_template" data-id="{{virtualReality_id}}">
+                                        <td class="virtualReality_id">{{virtualReality_id}}</td>
+                                        <td class="virtualReality_date">{{virtualReality_date}}</td>
+                                        <td class="virtualReality_time">{{virtualReality_time}}</td>
+                                        <td class="virtualReality_person">{{virtualReality_person}}</td>
+                                        <td class="virtualReality_telephone">{{virtualReality_telephone}}</td>
+                                        <td class="virtualReality_name">{{virtualReality_name}}</td>
+                                        <td class="virtualReality_company">{{virtualReality_company}}</td>
+                                        <td><a class="delete-btn btn-flat waves-effect waves-red tooltipped" data-position="bottom" data-tooltip="Löschen"><i class="fas fa-trash material-icons"></i></a>
+                                            <a class="edit-btn btn-flat waves-effect waves-teal tooltipped" data-position="bottom" data-tooltip="Bearbeiten"><i class="fas fa-edit material-icons"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="modal" class="modal">
+                        <div class="modal-content">
+                            <h4 class='modal-title'>Buchung bearbeiten</h4>
+                            <form id="virtualRealityForm" current-record="none">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_date" input type="text" class="validate datepicker" required>
+                                        <label for="virtualReality_date">Datum *</label> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_time" type="text" class="validate timepicker" required>
+                                        <label for="virtualReality_time">Zeit *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_person" type="number" class="validate" required step="1.0">
+                                        <label for="virtualReality_person">Anz. Personen *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_telephone" type="text" class="validate" required>
+                                        <label for="virtualReality_telephone">Telefonnummer *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_name" type="text" class="validate" required>
+                                        <label for="virtualReality_name">Name *</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="virtualReality_company" type="text" class="validate">
+                                        <label for="virtualReality_company">Firma</label>
+                                    </div>
+                                </div>
+                                <label>* Pflichtfeld</label>
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <input class="btn" id="reset" type="reset" style="background-color: #f06292">
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <input class="btn right" id="submit" type="submit" style="background-color: #f06292">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <footer class="page-footer pink lighten-3 ">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12 row l2 s4">
+                    <!--h5 class="white-text">Footer Content</h5>
+                    <p class="grey-text text-lighten-4"></p>
+                    <a class="waves-effect btn tooltipped" id="msg-btn" data-position="bottom" data-tooltip="Click to send a Message">Send
+                        Nudes</a-->
+                </div>
+
+            </div>
+        </div>
+        <div class="pink lighten-3">
+            <div>
+            </div>
+        </div>
+    </footer>
+
+
+
+</body>
+
+</html>
