@@ -3,7 +3,7 @@ $(function() {
     // Initialisierung der CSS-Komponenten
     // --------------------------------------------------------------------------------------------
     $('.sidenav').sidenav();
-    $('.lasertagModal').modal({
+    $('.modal').modal({
         onCloseEnd: function() {
             $('#lasertagForm').attr('current-record', 'none');
             $('#reset').click();
@@ -43,7 +43,7 @@ $(function() {
         }
     });
 
-    $('.lasertagModal-trigger').on('click', function() {
+    $('.modal-trigger').on('click', function() {
         $('.modal-title').html('Eintrag erstellen');
         $('#reset').click();
     });
@@ -79,7 +79,7 @@ $(function() {
             var lasertag_id = $(this).parents('.lasertag-list-content').attr('data-id');
             $('#lasertagForm').attr('current-record', lasertag_id);
             var modal = M.Modal.getInstance($('#lasertagModal'));
-            $('.lasertagModal-title').html('Eintrag bearbeiten');
+            $('.modal-title').html('Eintrag bearbeiten');
 
             $('#lasertag_date').siblings('label').addClass('active');
             $('#lasertag_time').siblings('label').addClass('active');
@@ -174,7 +174,7 @@ $(function() {
                 success: function(data) {
                     eintraegeLaden(data);
                     $('#reset').click();
-                    M.modal.getInstance($('#lasertagModal')).close();
+                    M.Modal.getInstance($('#lasertagModal')).close();
                     M.toast({
                         html: `${lasertag_time} erstellt`
                     });
@@ -210,7 +210,7 @@ $(function() {
                 success: function(data) {
                     eintraegeLaden(data);
                     $('#reset').click();
-                    M.modal.getInstance($('#lasertagModal')).close();
+                    M.Modal.getInstance($('#lasertagModal')).close();
                     M.toast({
                         html: `${lasertag_time} bearbeitet`
                     });
